@@ -45,6 +45,16 @@ class Worker(Process):
 
         return False
 
+    def in_include_list(self, metric_name):
+        """
+        Check if the metric is in INCLUDE_LIST.
+        """
+        for to_include in settings.INCLUDE_LIST:
+            if to_include in metric_name:
+                return True
+
+        return False
+
     def send_graphite_metric(self, name, value):
         if settings.GRAPHITE_HOST != '':
             sock = socket.socket()
@@ -86,6 +96,9 @@ class Worker(Process):
                 now = time()
 
                 for metric in chunk:
+
+                    if settings.INCLUDE_LIST and not self.in_include_list(metric[0]):
+                        continue
 
                     # Check if we should skip it
                     if self.in_skip_list(metric[0]):
