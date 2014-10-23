@@ -55,7 +55,7 @@ def alert_pagerduty(alert, metric):
 
 def alert_hipchat(alert, metric):
     import hipchat
-    hipster = hipchat.HipChat(token=settings.HIPCHAT_OPTS['auth_token'])
+    hipster = hipchat.HipChat(token=settings.HIPCHAT_OPTS['auth_token'],url=settings.HIPCHAT_OPTS['url'])
     rooms = settings.HIPCHAT_OPTS['rooms'][alert[0]]
     link = settings.GRAPH_URL % (metric[1])
 

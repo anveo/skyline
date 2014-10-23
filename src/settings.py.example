@@ -138,6 +138,7 @@ SMTP_OPTS = {
 
 # HipChat alerts require python-simple-hipchat
 HIPCHAT_OPTS = {
+    "url": "https://api.hipchat.com/v1/",
     "auth_token": "pagerduty_auth_token",
     # list of hipchat room_ids to notify about each anomaly
     # (similar to SMTP_OPTS['recipients'])
