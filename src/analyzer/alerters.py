@@ -3,6 +3,7 @@ from email.MIMEText import MIMEText
 from email.MIMEImage import MIMEImage
 from smtplib import SMTP
 import alerters
+import datetime
 import settings
 
 
@@ -62,6 +63,11 @@ def alert_hipchat(alert, metric):
     for room in rooms:
         hipster.method('rooms/message', method='POST', parameters={'room_id': room, 'from': 'Skyline', 'color': settings.HIPCHAT_OPTS['color'], 'message': 'Anomaly: <a href="%s">%s</a> : %s' % (link, metric[1], metric[0])})
 
+def alert_file(alert, metric):
+    with open('/var/log/skyline/alerts.log', 'a') as f:
+        link = settings.GRAPH_URL % (metric[1])
+        line = "[%s] %s: %s [%s]\n" % (datetime.datetime.now().isoformat(), metric[1], metric[0], link)
+        f.write(line)
 
 def trigger_alert(alert, metric):
 
